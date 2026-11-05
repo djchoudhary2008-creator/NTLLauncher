@@ -15,7 +15,7 @@ plugins {
     id("com.movtery.buildkeys")
 }
 
-val zalithPackageName = "com.movtery.zalithlauncher"
+val pojavPackageName = "com.movtery.ntllauncher"
 val launcherAPPName = project.findProperty("launcher_app_name") as? String ?: error("The \"launcher_app_name\" property is not set in gradle.properties.")
 val launcherName = project.findProperty("launcher_name") as? String ?: error("The \"launcher_name\" property is not set in gradle.properties.")
 val launcherShortName = project.findProperty("launcher_short_name") as? String ?: error("The \"launcher_short_name\" property is not set in gradle.properties.")
@@ -106,7 +106,7 @@ fun writeComponentAssetManifests(assetsDir: File) {
 }
 
 android {
-    namespace = zalithPackageName
+    namespace = pojavPackageName
     compileSdk {
         version = release(37) {
             minorApiLevel = 2
@@ -115,21 +115,22 @@ android {
 
     signingConfigs {
         create("releaseBuild") {
-            storeFile = file("zalith_launcher.jks")
+            storeFile = file("ntl_launcher.jks")
             storePassword = getKeyFromLocal("STORE_PASSWORD", ".store_password.txt")
-            keyAlias = "movtery_zalith"
+            keyAlias = "movtery_ntl"
             keyPassword = getKeyFromLocal("KEY_PASSWORD", ".key_password.txt")
         }
         create("debugBuild") {
-            storeFile = file("zalith_launcher_debug.jks")
+            storeFile = file("ntl_launcher_debug.jks")
             storePassword = defaultStorePassword
-            keyAlias = "movtery_zalith_debug"
+            keyAlias = "movtery_ntl_debug"
             keyPassword = defaultKeyPassword
         }
     }
 
     defaultConfig {
-        applicationId = zalithPackageName
+        applicationId = ntl
+PackageName
         applicationIdSuffix = ".v2"
         minSdk = 26
         targetSdk = 34
