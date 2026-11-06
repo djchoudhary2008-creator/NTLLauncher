@@ -1,5 +1,5 @@
 /*
- * Zalith Launcher 2
+ * NTL Launcher 
  * Copyright (C) 2025-2026 MovTery <movtery228@qq.com> and contributors
  *
  * This program is free software: you can redistribute it and/or modify
@@ -16,7 +16,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/gpl-3.0.txt>.
  */
 
-package com.movtery.zalithlauncher.ui.theme.festivals.simulations
+package com.movtery.ntllauncher.ui.theme.festivals.simulations
 
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
