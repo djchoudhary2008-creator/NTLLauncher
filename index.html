@@ -1,0 +1,514 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NTL Launcher</title>
+
+<style>
+:root {
+  --bg:#080d12;
+  --card:#111b22;
+  --green:#a4ff35;
+  --text:#f4f7f2;
+  --muted:#9aa8a9;
+  --speed:1s;
+}
+
+* {
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  font-family:Arial,sans-serif;
+}
+
+html { scroll-behavior:smooth; }
+
+body {
+  background:var(--bg);
+  color:var(--text);
+  overflow-x:hidden;
+}
+
+body.no-animation *,
+body.no-animation *::before,
+body.no-animation *::after {
+  animation:none!important;
+  transition:none!important;
+  scroll-behavior:auto!important;
+}
+
+header {
+  position:sticky;
+  top:0;
+  z-index:100;
+  background:#0b1218ee;
+  backdrop-filter:blur(15px);
+  padding:17px 6%;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  border-bottom:1px solid #26352b;
+}
+
+.logo {
+  font-size:23px;
+  font-weight:900;
+  color:var(--green);
+}
+
+nav {
+  display:flex;
+  gap:20px;
+}
+
+nav a {
+  color:white;
+  text-decoration:none;
+  font-size:13px;
+}
+
+nav a:hover { color:var(--green); }
+
+.menu {
+  display:none;
+  background:none;
+  color:white;
+  border:0;
+  font-size:26px;
+}
+
+.hero {
+  min-height:580px;
+  padding:100px 8%;
+  display:flex;
+  align-items:center;
+  background:
+  radial-gradient(circle at 80% 40%,#a4ff3525,transparent 40%),
+  linear-gradient(135deg,#080d12,#132019);
+}
+
+.hero-content { max-width:750px; }
+
+.tag {
+  color:var(--green);
+  letter-spacing:4px;
+  font-size:12px;
+  margin-bottom:20px;
+}
+
+.hero h1 {
+  font-size:clamp(45px,8vw,82px);
+  line-height:1.08;
+  animation:enter var(--speed) ease both;
+}
+
+.hero h1 span { color:var(--green); }
+
+.hero p {
+  color:var(--muted);
+  line-height:1.8;
+  margin:22px 0;
+  max-width:550px;
+}
+
+.btn {
+  display:inline-block;
+  padding:14px 24px;
+  background:var(--green);
+  color:#10180b;
+  border:0;
+  border-radius:8px;
+  text-decoration:none;
+  font-weight:bold;
+  cursor:pointer;
+  margin:5px 5px 5px 0;
+}
+
+.btn:hover {
+  box-shadow:0 0 25px #a4ff3580;
+}
+
+.btn.secondary {
+  background:transparent;
+  color:white;
+  border:1px solid #53634f;
+}
+
+section { padding:75px 8%; }
+
+.heading {
+  font-size:35px;
+  text-align:center;
+  margin-bottom:12px;
+}
+
+.subheading {
+  text-align:center;
+  color:var(--muted);
+  margin-bottom:40px;
+  line-height:1.6;
+}
+
+.cards {
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(210px,1fr));
+  gap:20px;
+}
+
+.card {
+  background:var(--card);
+  border:1px solid #29372f;
+  padding:28px;
+  border-radius:14px;
+  transition:transform .3s,border-color .3s;
+}
+
+.card:hover {
+  transform:translateY(-7px);
+  border-color:var(--green);
+}
+
+.card .icon {
+  font-size:35px;
+  margin-bottom:18px;
+}
+
+.card h3 { margin-bottom:12px; }
+
+.card p {
+  color:var(--muted);
+  line-height:1.7;
+  font-size:14px;
+}
+
+.fps {
+  background:linear-gradient(120deg,#101d15,#10171c);
+  border-top:1px solid #28392c;
+  border-bottom:1px solid #28392c;
+}
+
+.settings {
+  max-width:650px;
+  margin:auto;
+  padding:30px;
+  background:var(--card);
+  border:1px solid #334437;
+  border-radius:15px;
+}
+
+.setting-row {
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:15px;
+  margin:20px 0;
+}
+
+.setting-row label { font-weight:bold; }
+
+input[type=range] {
+  width:100%;
+  accent-color:var(--green);
+  margin-top:15px;
+}
+
+.switch {
+  width:52px;
+  height:28px;
+  appearance:none;
+  background:#48514d;
+  border-radius:30px;
+  position:relative;
+  cursor:pointer;
+}
+
+.switch:checked { background:var(--green); }
+
+.switch:before {
+  content:"";
+  position:absolute;
+  height:20px;
+  width:20px;
+  top:4px;
+  left:4px;
+  background:white;
+  border-radius:50%;
+  transition:.3s;
+}
+
+.switch:checked:before { left:28px; }
+
+.download {
+  text-align:center;
+  background:radial-gradient(circle,#29421d,#080d12 70%);
+}
+
+.download h2 {
+  font-size:38px;
+  margin-bottom:18px;
+}
+
+.download p {
+  color:var(--muted);
+  margin-bottom:25px;
+  line-height:1.7;
+}
+
+footer {
+  padding:30px 8%;
+  text-align:center;
+  border-top:1px solid #29372f;
+  color:var(--muted);
+  font-size:13px;
+}
+
+@keyframes enter {
+  from { opacity:0; transform:translateY(30px); }
+  to { opacity:1; transform:translateY(0); }
+}
+
+@media(max-width:700px) {
+  header { padding:16px 5%; }
+  .menu { display:block; }
+  nav {
+    display:none;
+    position:absolute;
+    top:65px;
+    left:0;
+    width:100%;
+    background:#0b1218;
+    padding:25px;
+    flex-direction:column;
+  }
+  nav.show { display:flex; }
+  .hero { min-height:510px; padding:80px 7%; }
+  section { padding:60px 6%; }
+  .heading { font-size:29px; }
+  .setting-row { flex-wrap:wrap; }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <div class="logo">🟢 NTL LAUNCHER</div>
+  <button class="menu" onclick="toggleMenu()">☰</button>
+  <nav id="nav">
+    <a href="#home" onclick="closeMenu()">Home</a>
+    <a href="#features" onclick="closeMenu()">Features</a>
+    <a href="#fps" onclick="closeMenu()">FPS Boost</a>
+    <a href="#mods" onclick="closeMenu()">Mods</a>
+    <a href="#download" onclick="closeMenu()">Download</a>
+    <a href="#settings" onclick="closeMenu()">Settings</a>
+  </nav>
+</header>
+
+<main>
+
+<div class="hero" id="home">
+  <div class="hero-content">
+    <div class="tag">NEXT GENERATION MINECRAFT EXPERIENCE</div>
+    <h1>PLAY MORE.<br><span>LIMIT LESS.</span></h1>
+    <p>
+      Experience Minecraft Java Edition with NTL Launcher.
+      Discover mods, performance features and a new gaming experience.
+    </p>
+    <a href="#download" class="btn">Download Launcher ↓</a>
+    <a href="#features" class="btn secondary">Explore Features</a>
+  </div>
+</div>
+
+<section id="features">
+  <h2 class="heading">Powerful Features</h2>
+  <p class="subheading">Everything you need for your Minecraft experience.</p>
+
+  <div class="cards">
+    <div class="card">
+      <div class="icon">⚡</div>
+      <h3>Performance</h3>
+      <p>Explore optimization options for a smoother Minecraft experience.</p>
+    </div>
+
+    <div class="card">
+      <div class="icon">🎮</div>
+      <h3>Easy Controls</h3>
+      <p>A clean and simple interface designed for mobile players.</p>
+    </div>
+
+    <div class="card">
+      <div class="icon">🧩</div>
+      <h3>Mod Support</h3>
+      <p>Organize your favorite mods and modpacks in one place.</p>
+    </div>
+
+    <div class="card">
+      <div class="icon">🌍</div>
+      <h3>World Manager</h3>
+      <p>Manage your Minecraft worlds and game files easily.</p>
+    </div>
+
+    <div class="card">
+      <div class="icon">🎨</div>
+      <h3>Custom Resources</h3>
+      <p>Explore resource packs and shader pack support.</p>
+    </div>
+
+    <div class="card">
+      <div class="icon">🚀</div>
+      <h3>Custom Settings</h3>
+      <p>Customize your launcher experience according to your needs.</p>
+    </div>
+  </div>
+</section>
+
+<section class="fps" id="fps">
+  <h2 class="heading">FPS BOOST</h2>
+  <p class="subheading">Explore performance optimization features.</p>
+
+  <div class="cards">
+    <div class="card">
+      <div class="icon">⚡</div>
+      <h3>Sodium</h3>
+      <p>Explore rendering optimization with Sodium.</p>
+    </div>
+
+    <div class="card">
+      <div class="icon">🔋</div>
+      <h3>Lithium</h3>
+      <p>Optimize game logic and improve performance.</p>
+    </div>
+
+    <div class="card">
+      <div class="icon">💾</div>
+      <h3>FerriteCore</h3>
+      <p>Reduce memory usage with optimization mods.</p>
+    </div>
+  </div>
+</section>
+
+<section id="mods">
+  <h2 class="heading">MOD CENTER</h2>
+  <p class="subheading">Customize your Minecraft experience.</p>
+
+  <div class="cards">
+    <div class="card">
+      <div class="icon">🧩</div>
+      <h3>Mods</h3>
+      <p>Discover useful Minecraft modifications.</p>
+    </div>
+
+    <div class="card">
+      <div class="icon">📦</div>
+      <h3>Modpacks</h3>
+      <p>Explore customized mod collections.</p>
+    </div>
+
+    <div class="card">
+      <div class="icon">🎨</div>
+      <h3>Resource Packs</h3>
+      <p>Change the look of your Minecraft world.</p>
+    </div>
+
+    <div class="card">
+      <div class="icon">🌄</div>
+      <h3>Shaders</h3>
+      <p>Explore visual enhancement packs.</p>
+    </div>
+  </div>
+</section>
+
+<section id="settings">
+  <h2 class="heading">INTERFACE SETTINGS</h2>
+  <p class="subheading">Customize your website experience.</p>
+
+  <div class="settings">
+    <div class="setting-row">
+      <label for="animationToggle">Interface Animations</label>
+      <input class="switch" type="checkbox" id="animationToggle" checked>
+    </div>
+
+    <div class="setting-row">
+      <label for="speed">Animation Speed</label>
+      <strong id="speedValue">Normal</strong>
+    </div>
+
+    <input type="range" id="speed" min="0.5" max="2.5"
+    step="0.5" value="1">
+
+    <p style="color:var(--muted);margin-top:15px;font-size:13px;">
+      Move the slider to adjust animation speed or switch animations off.
+    </p>
+  </div>
+</section>
+
+<section class="download" id="download">
+  <h2>READY TO PLAY?</h2>
+  <p>Start your Minecraft journey with NTL Launcher.</p>
+  <!-- Add your real APK or ZIP download URL below -->
+  <a href="#" class="btn" id="downloadBtn">Download Launcher ↓</a>
+  <p style="margin-top:15px;font-size:12px;">
+    Download link will be available soon.
+  </p>
+</section>
+
+</main>
+
+<footer>
+  <div class="logo">NTL LAUNCHER</div>
+  <p style="margin-top:12px;">Your Minecraft. Your Experience.</p>
+  <p style="margin-top:10px;">© 2026 NTL Launcher. All Rights Reserved.</p>
+</footer>
+
+<script>
+function toggleMenu() {
+  document.getElementById("nav").classList.toggle("show");
+}
+
+function closeMenu() {
+  document.getElementById("nav").classList.remove("show");
+}
+
+const animationToggle =
+document.getElementById("animationToggle");
+
+const speed =
+document.getElementById("speed");
+
+const speedValue =
+document.getElementById("speedValue");
+
+function updateAnimation() {
+  document.body.classList.toggle(
+    "no-animation",
+    !animationToggle.checked
+  );
+
+  const value = Number(speed.value);
+
+  document.documentElement.style.setProperty(
+    "--speed",
+    (1 / value) + "s"
+  );
+
+  let label = "Normal";
+
+  if(value === 0.5) label = "Slow";
+  if(value === 1.5) label = "Fast";
+  if(value === 2) label = "Very Fast";
+  if(value === 2.5) label = "Ultra Fast";
+
+  speedValue.textContent = label;
+}
+
+animationToggle.addEventListener("change",updateAnimation);
+speed.addEventListener("input",updateAnimation);
+
+updateAnimation();
+</script>
+
+</body>
+                                                </html>
+                                                         
